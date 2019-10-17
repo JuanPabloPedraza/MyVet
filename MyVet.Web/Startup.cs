@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyVet.Web.Data.Entities;
 
 namespace MyVet.Web
 {
@@ -30,6 +32,12 @@ namespace MyVet.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddDbContext<DataContext>(cfg =>
+            {
+                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
